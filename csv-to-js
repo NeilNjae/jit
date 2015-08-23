@@ -61,3 +61,10 @@ with open(JSFILE, 'w') as f:
     json.dump(nodes, f, indent=4)
     with open('hypertree-postamble.txt') as p:
         f.write(p.read())
+
+with open(HTMLFILE, 'w') as f:
+    with open('hypertree-html-preamble.txt') as p:
+        f.write(p.read())
+    f.write(JSFILE)
+    with open('hypertree-html-postamble.txt') as p:
+        f.write(p.read())
