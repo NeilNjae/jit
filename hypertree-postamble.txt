@@ -65,15 +65,55 @@
             //Make the relations list shown in the right column.
             var node = ht.graph.getClosestNodeToOrigin("current");
             var html = "<h4>" + node.name + "</h4><b>Connections:</b>";
+
+            // html += "<p>" + node.id + "</p>";
+
+            // html += "<ol>";
+            // node.eachAdjacency(function(adj){
+            //     var child = adj.nodeTo;
+            //     var arc_start = adj.getData('arc_start');
+            //     var arg_type = adj.getData('arg_type');
+            //     html += "<li>" + child.id + ": " + child.name + "; " + arc_start + "; " + arg_type + "</li>";
+            // });
+            // html += "</ol>";
+
             html += "<ul>";
             node.eachAdjacency(function(adj){
                 var child = adj.nodeTo;
-                html += "<li>" + child.name + "</li>";
+                var arc_start = adj.getData('arc_start');
+                var arg_type = adj.getData('arg_type');
+                if (arc_start != node.id && arg_type == "support") {
+                    html += "<li> supported by " + child.name + "</li>";
+                }
+            });
+            node.eachAdjacency(function(adj){
+                var child = adj.nodeTo;
+                var arc_start = adj.getData('arc_start');
+                var arg_type = adj.getData('arg_type');
+                if (arc_start != node.id && arg_type == "refute") {
+                    html += "<li> refuted by " + child.name  + "</li>";
+                }
+            });
+            node.eachAdjacency(function(adj){
+                var child = adj.nodeTo;
+                var arc_start = adj.getData('arc_start');
+                var arg_type = adj.getData('arg_type');
+                if (arc_start == node.id && arg_type == "support") {
+                    html += "<li> supports " + child.name + "</li>";
+                }
+            });
+            node.eachAdjacency(function(adj){
+                var child = adj.nodeTo;
+                var arc_start = adj.getData('arc_start');
+                var arg_type = adj.getData('arg_type');
+                if (arc_start == node.id && arg_type == "refute") {
+                    html += "<li> refutes " + child.name + "</li>";
+                }
             });
             html += "</ul>";
             $jit.id('inner-details').innerHTML = html;
             // html = node text
-            var html = "<p>" + node.data.text + "</p>"
+            var html = "<h4>" + node.name + "</h4><p>" + node.data.text + "</p>"
             $jit.id('id-list').innerHTML = html;
         }
     });
